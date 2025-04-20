@@ -3,6 +3,7 @@
 # Default Docker images for languages
 declare -A LANG_IMAGES=(
     ["python"]="python"
+    ["jupyter"]="python"
     ["node"]="node"
     ["go"]="golang"
     ["cpp"]="gcc"
@@ -53,13 +54,13 @@ if [[ "$LANGUAGE" == "node" ]]; then
         -w /workspace \
         "$IMAGE_TAG" \
         bash -c "corepack enable && corepack prepare pnpm@latest --activate && bash"
-elif [[ "$LANGUAGE" == "python" ]]; then
+elif [[ "$LANGUAGE" == "jupyter" ]]; then
     docker run --rm -it \
         -v "$PWD":/workspace \
         -p 3088:8888 \
         -w /workspace \
         "$IMAGE_TAG" \
-        bash -c "pip install --root-user-action=ignore notebook ipykernel && jupyter notebook --ip=0.0.0.0 --port=8888 --no-browser --NotebookApp.token='' --NotebookApp.password='' --NotebookApp.allow_origin='*' --NotebookApp.port_retries=0 --allow-root > /dev/null 2>&1 && echo "Jupiter notebook server running on http://localhost:3088" && bash"
+        bash -c "pip install --root-user-action=ignore notebook ipykernel && jupyter notebook --ip=0.0.0.0 --port=8888 --no-browser --NotebookApp.token='' --NotebookApp.password='' --NotebookApp.allow_origin='*' --NotebookApp.port_retries=0 --allow-root & echo 'Jupyter notebook server running on http://localhost:3088' && exec bash"
 else
     docker run --rm -it \
         -v "$PWD":/workspace \
