@@ -56,10 +56,10 @@ if [[ "$LANGUAGE" == "node" ]]; then
 elif [[ "$LANGUAGE" == "python" ]]; then
     docker run --rm -it \
         -v "$PWD":/workspace \
-        -p 8888:8888 \
+        -p 3088:8888 \
         -w /workspace \
         "$IMAGE_TAG" \
-        bash -c "pip install --root-user-action=ignore notebook ipykernel && jupyter notebook --ip=0.0.0.0 --port=8888 --no-browser --NotebookApp.token='' --NotebookApp.password='' --NotebookApp.allow_origin='*' --NotebookApp.port_retries=0 --allow-root > /dev/null 2>&1 & bash"
+        bash -c "pip install --root-user-action=ignore notebook ipykernel && jupyter notebook --ip=0.0.0.0 --port=8888 --no-browser --NotebookApp.token='' --NotebookApp.password='' --NotebookApp.allow_origin='*' --NotebookApp.port_retries=0 --allow-root > /dev/null 2>&1 && echo "Jupiter notebook server running on http://localhost:3088" && bash"
 else
     docker run --rm -it \
         -v "$PWD":/workspace \
